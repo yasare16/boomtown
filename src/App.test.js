@@ -32,8 +32,11 @@ describe('App', () => {
     test('loads purchase history', async () => {
       
       const {container} = render(<App />);
+      const item = await screen.findByText('Sample item')
       expect(container).not.toBeEmptyDOMElement();
-      expect(screen.getByText('Sample item')).toBeInTheDocument()
+      expect(item).toBeInTheDocument()
       
     });
 });
+
+
