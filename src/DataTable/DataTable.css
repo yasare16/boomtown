@@ -1,0 +1,245 @@
+.purchase-history-table {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 0;
+  border-radius: 4px;
+  border-spacing: 0;
+  border-collapse: separate;
+  text-align: left;
+  display: block;
+  margin-block-start: 1rem;
+}
+
+.purchase-history-table th{
+  font-weight: 600;
+  font-size: 1em;
+  padding: 12px 24px;
+  border-block-end: 1px solid #ddd;
+  width: 16%;
+}
+
+.purchase-history-table tbody tr {
+  display: inline-grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: center;
+  padding: 16px 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-block: 10px;
+  width: 100%;
+}
+
+.purchase-history-table tbody {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.purchase-history-table tbody td{
+  padding: 0;
+  display: block;
+}
+
+.purchase-history-table img {
+  width: 44px;
+  border-radius: 50%;
+  display: table-cell;
+}
+
+.purchase-history-table .row-menu img {
+  width: 20px;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+.purchase-history-table .location {
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start: 1;
+  display: table;
+}
+
+.purchase-history-table .name {
+  grid-row-start: 1;
+  grid-column-start: 3;
+  grid-column-end: 11;
+  padding-inline-start: 8px;
+}
+
+.purchase-history-table .desc {
+  grid-column-start: 1;
+  grid-column-end: 9;
+  grid-row-start: 2;
+}
+
+.purchase-history-table .date {
+  grid-column-start: 1;
+  grid-column-end: 13;
+  margin-block-start: 1rem;
+}
+
+.purchase-history-table .price {
+  grid-column-start: 11;
+  grid-column-end: 13;
+  grid-row-start: 1;
+  font-size: 0.75rem;
+}
+
+.purchase-history-table .category,
+.purchase-history-table .row-menu,
+.purchase-history-table thead {
+  display: none;
+}
+
+.purchase-history-table .price,
+.purchase-history-table .name {
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.purchase-history-table .desc {
+  max-width: 40ch;
+  margin-block-start: 1rem;
+}
+
+.purchase-history-table .desc:first-letter {
+  text-transform: capitalize;
+}
+
+.purchase-history-table .category{
+  text-align: center;
+}
+
+[data-col]:before {
+  content: attr(data-col);
+  display: block;
+  font-weight: 600;
+}
+
+[data-cat] {
+  user-select: none;
+  cursor: default;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
+/* This is could better be done with a js file that 
+  outputs an object literal with category label to color mappings
+*/
+[data-cat=Apparel] {
+  color: rgb(118, 2, 124);
+  border-color: rgba(118, 2, 124, 0.3);
+}
+
+[data-cat=Automotive] {
+  color: rgb(190, 0, 0);
+  border-color: rgba(190, 0, 0, 0.3);
+}
+
+[data-cat=Entertainment] {
+  color: rgb(37, 37, 150);
+  border-color: rgba(0, 0, 255, 0.3);
+}
+
+[data-cat=Food] {
+  color: rgb(189, 123, 0);
+  border-color: rgba(189, 123, 0, 0.3);
+}
+
+[data-cat=Footwear] {
+  color: rgb(5, 151, 180);
+  border-color: rgba(10, 170, 202, 0.3);
+}
+
+[data-cat=Travel] {
+  color: rgb(0, 128, 0);
+  border-color: rgba(0, 128, 0, 0.3);
+}
+
+.purchase-history-table button {
+  border: 0;
+  cursor: pointer;
+  opacity: 0.6;
+  background: transparent;
+}
+
+@media screen and (min-width:480px) {
+  .purchase-history-table img {
+    width: 44px;
+  }
+
+  .purchase-history-table .price {
+    font-size: 0.875rem;
+  }
+
+  .purchase-history-table .name {
+    grid-column-start: 2;
+    padding-inline-start: 1rem;
+  }
+}
+
+@media screen and (min-width: 787px){
+  .purchase-history-table tbody tr {
+    width: calc(50% - 20px);
+    margin-inline: 0.625rem;
+  }
+
+  .purchase-history-table .location {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    display: table;
+  }
+
+  .name {
+    grid-column-start: 3;
+    grid-column-end: 11;
+    padding-inline-start: 0;
+  }
+
+  .purchase-history-table img {
+    width: 36px;
+  }
+}
+
+@media screen and (min-width:991px) {
+  .purchase-history-table {
+    display: table;
+    border: 1px solid #ddd;
+  }
+
+  .purchase-history-table thead{
+    display: table-header-group;
+  }
+
+  .purchase-history-table tbody {
+    display: table-row-group;
+  }
+
+  .purchase-history-table tbody tr {
+    display: table-row;
+    padding: 1.5rem;
+  }
+
+  .purchase-history-table tbody td,
+  .purchase-history-table .category,
+  .purchase-history-table .row-menu,
+  .purchase-history-table .location {
+    display: table-cell;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .purchase-history-table .name {
+    padding-inline-start: 1.5rem;
+  }
+
+  .purchase-history-table img {
+    display: inline;
+  }
+
+  [data-col]:before {
+    content: none;
+  }
+  
+}
