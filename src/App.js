@@ -28,7 +28,6 @@ function App() { //orgs/boomtownroi
       headers: [
         ['Content-Type', 'application/json'],
         ['Accept', 'application/vnd.github.v3+json'],
-        ['Authorization', 'Bearer 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'],
       ],
     })
         .then(response => {
