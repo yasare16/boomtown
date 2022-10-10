@@ -20,13 +20,13 @@ const Event = ({ eventsData }) => {
         
                     {eventsData.map(event =>
                         <tr key={event.id}>
-                            <td>{event.id}</td>
-                            <td>{event.type.replace('Event', '')}</td>
-                            <td>
+                            <td data-th="ID">{event.id}</td>
+                            <td data-th="Type">{event.type.replace('Event', '')}</td>
+                            <td data-th="Repo">
                                 <a href={event.repo.url} className="name">
                                     {event.repo.name.replace(`${event.org.login}/`, '')}
                                 </a></td>
-                            <td>{format(new Date(event.created_at), 'MMMM do, yyyy')}</td>
+                            <td data-th="Date">{format(new Date(event.created_at), 'MMMM do, yyyy')}</td>
                         </tr>
                     )}
                     </tbody>

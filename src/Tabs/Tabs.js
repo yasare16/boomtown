@@ -1,6 +1,7 @@
 import { useState } from "react";
 import classNames from "classnames";
 import Events from "../Events/Events";
+import Members from "../Members/Members";
 
 import './Tabs.scss';
 
@@ -12,6 +13,7 @@ const Tab = ({content}) => {
     setChosenIndex(index);
   };
 
+  //Compare index of clicked tab to index state 
   const getActiveClass = (index) => chosenIndex === index
 
     return (
@@ -36,13 +38,14 @@ const Tab = ({content}) => {
                                 case 'events':
                                     return <Events eventsData={c.content}/>
                                 case 'hooks':
-                                    return null
+                                    return null // Couldn't reach hooks and issue components...
                                 case 'issues':
-                                    return null
+                                    return null //... because oof issues with github API
                                 case 'members':
-                                    return null
+                                    return <Members membersData={c.content}/>
                                 default:
-                                    throw Error(`Tab content id, ${c.id}, doesn't exist`)
+                                    //Making sure we know the defective id. The ids mae or break us
+                                    throw Error(`Tab data, id:${c.id}, doesn't exist`)
                             }
                         })()
                     }

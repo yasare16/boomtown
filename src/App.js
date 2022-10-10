@@ -1,16 +1,17 @@
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import moment from 'moment';
 import Repos from './Repos/Repos';
 import Tab from './Tabs/Tabs';
 import ErrorHandler from './ErrorHandler/ErrorHandler';
+import NotFound from './NotFound';
 import './App.scss';
 
-function App() { //orgs/boomtownroi
-  const [gitData, setGitData] = useState({})
+function App() {
+  const [gitData, setGitData] = useState(null)
   const [repos, setRepos] = useState([])
   const[content, setContent] = useState([])
-  //const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
   const [searchInput, setSearchInput] = useState('boomtownroi')
   const [error, setError] = useState({ state: false, message: '', code: '', text:'' })
   
@@ -28,57 +29,61 @@ function App() { //orgs/boomtownroi
       headers: [
         ['Content-Type', 'application/json'],
         ['Accept', 'application/vnd.github.v3+json'],
+        //['Authorization', 'Bearer ...'],
       ],
     })
-        .then(response => {
-          if (response.ok) {
-            setError({state: false})
-          return response.json()
-          } else {
-            const message = 'Oops! there was a problem retrieving the info you requested. Maybe you made a typo?'
-            response.json().then(res => {
-              console.error('There was a problem fetching the response: ', res.message)
-              setError({ state: true, message, code: response.status, text: res.message })
-              Promise.reject(res.message)
-            })
+    .then(response => {
+      if (response.ok) {
+        setError({state: false})
+        return response.json()
+      } else {
+        const message = 'Oops! There was a problem retrieving the info you requested.'
+        
+        response.json().then(res => {
+          console.error('There was a problem fetching the response: ', res.message)
+          setError({ state: true, message, code: response.status, text: res.message })
+          return Promise.reject(res.message)
+        })
+  
+    }})
+    .then(response => {
+      setGitData(response)
+      return Promise.allSettled([
+        fetch(response['repos_url']).then(response => response.json()),
+        fetch(response['events_url']).then(response => response.json()),
+        fetch(response['public_members_url'].replace('{/member}', '')).then(response => response.json()),
+        fetch(response['issues_url']).then(response => response.json()),
+        fetch(response['hooks_url']).then(response => response.json()),
+      ])
+      .catch(response => console.log(`${response.url} was rejected->`, response.status))
+    })
+      .then(response => {
+      //extracting data from response...
+      const [
+        repoData,
+        eventsData,
+        membersData,
+        issuesData,
+        hooksData,
+      ] = response
+      // as fodder for endpoint components 
+      setRepos(repoData.value)
+      setContent([
+        { id: 'events', content: eventsData?.value},
+        { id: 'members', content: membersData?.value },
+        { id: 'issues', content: issuesData?.value },
+        { id: 'hooks', content: hooksData?.value },
+      ])
+      //console.log(gitData, error.state)
+      setLoading(false)
+    })
+    .catch(response => {
+      console.error(response)
+      setLoading(false)
+    })
       
-        }  })
-        .then(response => {
-          setGitData(response)
-          return Promise.all([
-            fetch(response['repos_url']).then(response => response.json()),
-            fetch(response['events_url']).then(response => response.json()),
-            fetch(response['issues_url']).then(response => response.json()),
-            fetch(response['hooks_url']).then(response => response.json()),
-            fetch(response['public_members_url']).then(response => response.json()),
-          ])
-          .catch(response => console.log('A promise was rejected->', response))
-        })
-        .then(response => {
-          const [
-            repoData,
-            eventsData,
-            issuesData,
-            hooksData,
-            membersData,
-          ] = response
-          setRepos(repoData)
-          setContent([
-            { id: 'events', content: eventsData},
-            { id: 'issues', content: issuesData },
-            { id: 'hooks', content: hooksData },
-            { id: 'members', content: membersData },
-          ])
-          console.log(response)
-          //setLoading(false)
-        })
-        .catch(response => {
-          console.error(response)
-          //setLoading(false)
-        })
-      
-      return payload
-    }
+    return payload
+  }
 
   const searchHandler = ({target}) => {
     setSearchInput(target.value)
@@ -89,12 +94,17 @@ function App() { //orgs/boomtownroi
     fetchGitData(url)
   }
 
+  //Ascertains newer date by simple comparison
   const getMostRecentDate = () => {
     return new Date(gitData['updated_at']).getTime() >= new Date(gitData['created_at']).getTime()
   }
 
+  if (loading) {
+    return <div className='loading'>Loading...</div>
+  }
+  
   return (
-    <Suspense fallback={<div className='loading'>Loading...</div>}>
+    
     <div className="App">
       <header className="content container App-header">
         <form onSubmit={submitHandler}>
@@ -104,7 +114,7 @@ function App() { //orgs/boomtownroi
       <main className="App-main">
         <div className="content container">
           {!error.state ?
-            !!gitData && <>
+            !!gitData ? <> 
               <h2 className='org--name' id={gitData.id}>
                 <img src={gitData['avatar_url']} alt={gitData.name} width="40" />
                 <a href={gitData['html_url']}>
@@ -124,15 +134,14 @@ function App() { //orgs/boomtownroi
               </div>
                 <Tab content={content}/>
                 <Repos repoData={repos} />
-            </>
+            </> : <NotFound subject="Data"/>
             :
             <ErrorHandler error={error} />
           }
           </div>
       </main>
     </div>
-    </Suspense>
-    
+
   )
 }
 

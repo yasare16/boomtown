@@ -1,7 +1,29 @@
-The start process will run index.js in the root of the folder structure
-It will then load the App component from App.js, it is the base of our application
-App.js in return call two main components of our application - the navbar and the page display i. Navbar has all the navigation details. React-router-dom library is used to route through different pages in the application ii. The display section dependes on the routes chosen and will render different components as per the selected Links
-The different display components are: Homepage, Repositories, Events, Members, Hooks and Issues i. Homepage: Pulls and displays organizational information from the provided base url api endpoint ii. Repositories: Fetches the endpoint for ${baseUrl}\repos from the initial response and pulls and displays information related to all the git repositories for this organization, if exists iii. Events: Fetches the endpoint for ${baseUrl}\events from the initial response and pulls and displays information related to all the git events for this organization, if exists iv. Members: Fetches the endpoint for ${baseUrl}\members from the initial response and pulls and displays information related to all the git members for this origanization, if exists v. Hooks: Fetches the endpoint for ${baseUrl}\hooks from the initial response and pulls and displays information related to all the git hooks for this organization, if exists vi. Issues: Fetches the endpoint for ${baseUrl}\issues from the initial response and pulls and displays information related to all the git issues for this organization, if exists
-The API calls are handled in a separate folder called ApiHandler where there's a script - useApiData - that exports custom hooks created for extracting the API info through http requests. This is done for separating the application from the API, so that if in future we want to change/update the API it should affect the basic app functionality and the changes can only be made on this folder/files.
-For error and exception handling, there is a try-catch block that catches and logs if there are any error/unexpected responses. The application will display response if status is 200, redirect to 404 page if the page is not found and load ApiError component for any other error response from the server. We will be expecting a 500 incase our server encounters problem fetching from the original api. The Api Error page will have some details related to response statusText as well as the statusCode which can help us to identify the issue if something went wrong. The error will also be logging on the terminal where the project is running.
-Sass is used for styling and are compiled as css. I have used react-bootstrap library for simplicity and responsive design.
+
+This web app was made with Create-React-App.
+To begin after **cloning**, run `npm i` to install the very few dependencies this project 
+requires. Run `npm run start` to get going.
+
+##Discussion
+The project was heavily dependent upon the Github API and also leaned on its first call at the
+organizational level for the rest of its subsequent API calls. 
+After the initial fetch call, I bunched up the other calls in a `Promise.all()` function. 
+This allowed me to gather the resulting data and distribute
+it to the Tab component, through an object literal. The odd diagram below tries to illustrate
+the very straight-forward architecture of the app based on how data travels through it.
+
+                        App(with input) - ErrorHandler
+                         |
+                        / \
+                    Repo   Tabs
+                            |
+                Events, Issues, Hooks, Members
+                            |
+                        NotFound
+
+The Tabs Component and Search feature exist to make the app just a little more extensible.
+
+###Failures
+A major setback for me in building this app was my inability to get proper Authentication from the API.
+I explored authentication by utilizing the `fetch` headers and through Github's `.git-credentials`
+file(A Personal Access Token). Both of which didn't work in time for the full realization of the app.
+Due to this, the */issues* and */hooks* urls always fail to return data. 

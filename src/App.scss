@@ -5,23 +5,31 @@
     text-align: center;
 }
 
-.main-search {
-    border: 0;
-    padding-inline:1rem;
-    padding-block: 1rem;
-    box-shadow: 0 0 20px rgba(0 0 0 / 10%);
-    font-weight: 500;
-    font-size: 1.5rem;
-    letter-spacing: 0.5px;
-    width: 90%;
+form {
     margin: 1rem auto;
-    text-transform: capitalize;
+
+    .main-search {
+        border: 0;
+        padding-inline:1rem;
+        padding-block: 1rem;
+        box-shadow: 0 0 20px rgba(0 0 0 / 10%);
+        font-weight: 500;
+        font-size: 1.5rem;
+        letter-spacing: 0.5px;
+        width: 100%;
+        text-transform: capitalize;
+    }
+    
+    @media screen and (max-width:640px){
+        margin: 1rem;
+    }
 }
 
 .org{
     &--name {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
         column-gap: 0.5rem;
         align-items: center;
 
@@ -62,6 +70,7 @@
 
     &--meta {
         display: flex;
+        justify-content: center;
         column-gap: 2em;
         padding-block: 1.5rem;
         font-size: 0.875rem;

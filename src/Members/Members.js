@@ -1,29 +1,31 @@
 import NotFound from '../NotFound'
-import './Repos.scss'
+import './Members.scss'
 
 const Repos = ({ membersData }) => {
     return (
         
-        <section className="repo-list">
+        <section className="member-list">
             {
                 !!membersData.length ?
                     <ul>
                         {membersData.map(dataItem =>
                             <li key={dataItem.id} id={dataItem.id}>
-                                <div className="admin">
-                                    <span>{dataItem.language}</span>
-                                </div>
-                                <div>
-                                <h2 className="name">
-                                    <a href={dataItem['html_url']}>{dataItem.login}</a>
-                                </h2>
-                                    <figure className="desc">
-                                        <img src={dataItem['avatar_url']} alt="" width="50"/>
+                                <div className='profile'>
+                                    <figure>
+                                        <img src={dataItem['avatar_url']} alt=""/>
                                     </figure>
-                                    
+                                    <div className='info'>
+                                        <h2 className="name">
+                                            <a target="_blank" rel="noreferrer" href={dataItem['html_url']}>
+                                                {dataItem.login}
+                                            </a>
+                                        </h2>
+                                        <span className='type'>{dataItem.type}</span> | <span className='admin'>{dataItem['site_admin'] ? 'Site Admin' : 'Member'}</span>
+                                    </div>
+                                     
                                 </div>
                         
-                                <span className='date'>{dataItem.type}</span>
+                               
                                 
                             </li>
                         )}

@@ -6,6 +6,10 @@
   thead {
     position: sticky;
     top: 0;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
   }
 
   th{
@@ -13,6 +17,24 @@
     background-color: rgb(24, 31, 59);
     border-bottom: 2px solid #fff;
     text-align: left;
+  }
+
+  tbody {
+
+    @media screen and (max-width: 768px) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+
+      tr {
+        display: block;
+        border: 1px solid #555;
+        border-radius: 10px;
+        width: 280px;
+      }
+    }
+    
   }
 
   td{
@@ -29,5 +51,24 @@
         color: #fff;
       }
     }
+
+    &[data-th] {
+
+      @media screen and (max-width: 768px) {
+        display: block;
+
+
+        &:before{
+          content: attr(data-th)"\003A\00A0";
+          font-weight: 600;
+
+        }
+      }
+      
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    display: block;
   }
 }

@@ -21,7 +21,7 @@ const Repos = ({ repoData }) => {
                                 <span className='date'>Created {moment(dataItem['created_at']).format('MMM Do, yyyy')}</span>
                                 <span className='date'>Updated {moment(dataItem['updated_at'], 'YYYYMMDD').fromNow()}</span>
                                 <span className="date">
-                                    Pushed {moment(dataItem['pushed_at'], 'YYYYMMDD').fromNow()}
+                                    Pushed {moment(dataItem['pushed_at'], 'YYYYMMDD').fromNow() /*Relative dates work well for events that have possibly happened  recent memory */}
                                 </span>
                             </li>
                         )}

@@ -1,16 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import DataTable from './DataTable/DataTable';
 import App from './App'
 
 
 const mockResponse = [{
+    login: 'foo',
     id: 1,
-    location: 'https://image.com',
-    purchaseDate: '2020-12-29T00:00:00.0000Z',
-    category: 'Foo',
+    name: 'string',
+    url: 'http://link.com',
     description: 'Here is a description',
-    price: 2345,
-    name: 'Sample item'
+    public_repos: 2345,
+    type: 'Organization',
 }]
 
 global.fetch = jest.fn(() => {
@@ -29,10 +28,10 @@ describe('App', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-    test('loads purchase history', async () => {
+    test('loads github info', async () => {
       
       const {container} = render(<App />);
-      const item = await screen.findByText('Sample item')
+      const item = await screen.findByText('string')
       expect(container).not.toBeEmptyDOMElement();
       expect(item).toBeInTheDocument()
       
