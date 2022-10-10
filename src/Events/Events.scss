@@ -1,0 +1,33 @@
+.events-list {
+  border-collapse: separate;
+  padding: 24px 20px;
+  width: 100%;
+
+  thead {
+    position: sticky;
+    top: 0;
+  }
+
+  th{
+    padding: 15px 10px;
+    background-color: rgb(24, 31, 59);
+    border-bottom: 2px solid #fff;
+    text-align: left;
+  }
+
+  td{
+    padding: 10;
+    width: 20%;
+    padding:20px 10px;
+    font-weight: 500;
+
+    a{
+
+      &.name {
+        text-transform: capitalize;
+        text-underline-offset: 4px;
+        color: #fff;
+      }
+    }
+  }
+}
