@@ -1,5 +1,11 @@
 .repo-list {
-  margin-block-start: 2em;
+  margin-block-start: 3.5em;
+
+  .title {
+    font-size: 1.25em;
+    font-weight: 600;
+    text-align: center;
+  }
 
   ul {
     list-style: none;
@@ -7,6 +13,7 @@
     flex-wrap: wrap;
     gap: 2rem;
     justify-content: center;
+    margin-block-start: 1.5rem;
   }
 
   li {

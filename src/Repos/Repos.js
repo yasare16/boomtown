@@ -7,15 +7,17 @@ const Repos = ({ repoData }) => {
         
         <section className="repo-list">
             {
-                !!repoData.length ?
+                !!repoData.length ? <>
+                    <h2 className='title'>Repositories</h2>
                     <ul>
                         {repoData.map(dataItem =>
                             <li key={dataItem.id}>
                                 <div className="category">
                                     <span>{dataItem.language}</span>
                                 </div>
-                                <h2 className="name">
-                                    <a href={dataItem.url}>{dataItem.name}</a></h2>
+                                <h3 className="name">
+                                    <a href={dataItem.url}>{dataItem.name}</a>
+                                </h3>
                                 <p className="desc">{dataItem.description}</p>
                         
                                 <span className='date'>Created {moment(dataItem['created_at']).format('MMM Do, yyyy')}</span>
@@ -26,7 +28,7 @@ const Repos = ({ repoData }) => {
                             </li>
                         )}
             
-                    </ul> : <NotFound subject="Repositories" />
+                    </ul></> : <NotFound subject="Repositories" />
             }
         </section>
     )
